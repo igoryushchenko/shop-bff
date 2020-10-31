@@ -11,12 +11,14 @@ type LambdaResult = {
 
 const withApiGwMiddleware = (handler) => async (event: APIGatewayEvent): Promise<LambdaResult> => {
     let body;
-    let headers = {};
+    let headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+    };
     let statusCode = 200;
 
     try {
         body = await handler(event);
-        console.log(body);
     } catch (error) {
         if (error instanceof HttpServiceError) {
             ({ statusCode } = error)
@@ -48,7 +50,6 @@ const getProductById = withApiGwMiddleware(async (event) => {
     if (!result) {
         throw new HttpServiceError(`Product with id=${id} not found`, 404);
     }
-
     return result;
 });
 
