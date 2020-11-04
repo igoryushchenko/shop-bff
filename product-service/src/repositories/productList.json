@@ -1,0 +1,66 @@
+[
+  {
+    "count": 4,
+    "description": "Fully-featured for home and on‑the‑go gaming.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    "price": 2.4,
+    "title": "Nintendo Switch",
+    "img": "https://images-na.ssl-images-amazon.com/images/I/61JnrafZ7zL._AC_SL1457_.jpg"
+  },
+  {
+    "count": 6,
+    "description": "The PlayStation 4 (PS4) is a home video game console developed by Sony Computer Entertainment",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a0",
+    "price": 10,
+    "title": "PlayStation 4 (PS4)",
+    "img": "https://image.coolblue.be/max/500x500/products/567947"
+  },
+  {
+    "count": 7,
+    "description": "The Xbox One is a home video game console developed by Microsoft. Announced in May 2013",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a6",
+    "price": 23,
+    "title": "Xbox One",
+    "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Microsoft-Xbox-One-Console-Set-wKinect.jpg/1200px-Microsoft-Xbox-One-Console-Set-wKinect.jpg"
+  },
+  {
+    "count": 12,
+    "description": "Death Stranding is an action game developed by Kojima Productions.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+    "price": 15,
+    "title": "Death Stranding",
+    "img": "https://upload.wikimedia.org/wikipedia/en/thumb/2/22/Death_Stranding.jpg/220px-Death_Stranding.jpg"
+  },
+  {
+    "count": 7,
+    "description": "Cyberpunk 2077 is an upcoming action role-playing video game developed and published by CD Projekt Red",
+    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2",
+    "price": 23,
+    "title": "Cyberpunk 2077",
+    "img": "https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg"
+  },
+  {
+    "count": 8,
+    "description": "Call of Duty: Modern Warfare is a 2019 first-person shooter video game developed by Infinity Ward and published by Activision.",
+    "id": "7567ec4b-b10c-48c5-9345-fc73348a80a1",
+    "price": 15,
+    "title": "Call of Duty: Modern Warfare",
+    "img": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e9/CallofDutyModernWarfare%282019%29.jpg/220px-CallofDutyModernWarfare%282019%29.jpg"
+  },
+  {
+    "count": 2,
+    "description": "Ghost of Tsushima is an action-adventure game developed by Sucker Punch Productions and published by Sony Interactive Entertainment",
+    "id": "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
+    "price": 23,
+    "title": "Ghost of Tsushima",
+    "img": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Ghost_of_Tsushima.jpg/220px-Ghost_of_Tsushima.jpg"
+  },
+  {
+    "count": 3,
+    "description": "Tom Clancy's Ghost Recon Breakpoint is an online tactical shooter video game developed by Ubisoft Paris and published by Ubisoft. The game was released worldwide on 4 October 2019 for Microsoft Windows, PlayStation 4 and Xbox One, and on 18 December 2019 for Stadia.",
+    "id": "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
+    "price": 15,
+    "title": "Tom Clancy's Ghost Recon Breakpoint",
+    "img": "https://www.xyz.co.za/ProdImg/Big_3307216136569-01.jpg"
+  }
+]

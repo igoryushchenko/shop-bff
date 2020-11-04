@@ -1,0 +1,27 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Product schema",
+  "required": ["networkBrand", "version", "products"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "img": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

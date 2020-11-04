@@ -1,0 +1,43 @@
+service:
+  name: product-service
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: aws-rs-cli
+  region: eu-west-1
+  stage: ${opt:stage, 'dev'}
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+functions:
+  getProductsList:
+    handler: src/handlers/index.getProductsList
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+
+  getProductById:
+    handler: src/handlers/index.getProductById
+    events:
+      - http:
+          path: /products/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
