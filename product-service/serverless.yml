@@ -46,3 +46,14 @@ functions:
             parameters:
               paths:
                 id: true
+
+  addProduct:
+    handler: src/handlers/index.addProduct
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+          request:
+            schema:
+              application/json: ${file(src/schema/addProduct.json)}

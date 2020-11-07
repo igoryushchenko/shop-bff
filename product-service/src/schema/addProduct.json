@@ -2,16 +2,14 @@
   "definitions": {},
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "title": "Product schema",
+  "title": "Add Product request body schema",
+  "required": ["title", "price", "count", "img", "description"],
   "properties": {
-    "id": {
-      "type": "string"
-    },
     "title": {
       "type": "string"
     },
     "price": {
-      "type": "integer"
+      "type": "number"
     },
     "count": {
       "type": "integer"
