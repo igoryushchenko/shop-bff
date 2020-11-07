@@ -20,6 +20,11 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    DB_HOST: ${ssm:/${self:provider.stage}/env/DB_HOST~true}
+    DB_PORT: ${ssm:/${self:provider.stage}/env/DB_PORT~true}
+    DB_NAME: ${ssm:/${self:provider.stage}/env/DB_NAME~true}
+    DB_USERNAME: ${ssm:/${self:provider.stage}/env/DB_USERNAME~true}
+    DB_PASSWORD: ${ssm:/${self:provider.stage}/env/DB_PASSWORD~true}
 
 functions:
   getProductsList:

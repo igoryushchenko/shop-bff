@@ -46,6 +46,11 @@ const getProductById = withApiGwMiddleware(async (event) => {
     const {
         pathParameters: { id },
     } = event;
+
+    if (!id) {
+        throw new HttpServiceError('Missing required parameter - id', 400);
+    }
+
     const result = await getById(id);
     if (!result) {
         throw new HttpServiceError(`Product with id=${id} not found`, 404);

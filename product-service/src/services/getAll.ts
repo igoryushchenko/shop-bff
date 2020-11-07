@@ -1,6 +1,6 @@
-import productList from '../repositories/productList.json';
 import { Product } from './types';
+import { getAllProducts } from '../repositories';
 
 export const getAll = async (): Promise<Product[]> => {
-    return Promise.resolve(productList);
+    return await getAllProducts();
 };
