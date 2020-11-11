@@ -1,6 +1,9 @@
-import productList from '../repositories/productList.json';
 import { Product } from './types';
+import { getAllProducts } from '../repositories';
 
 export const getAll = async (): Promise<Product[]> => {
-    return Promise.resolve(productList);
+    const result = await getAllProducts();
+    return result.map(product => {
+        return {...product, price: product.price / 100}
+    });
 };

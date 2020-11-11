@@ -1,6 +1,7 @@
 import { APIGatewayEvent } from 'aws-lambda';
 import { HttpServiceError } from '../errors/HttpServiceError';
 import { getAll, getById } from '../services';
+import { addNewProduct } from '../services/addNewProduct';
 
 type LambdaResult = {
     headers: Record<string, string | boolean>;
@@ -16,6 +17,11 @@ const withApiGwMiddleware = (handler) => async (event: APIGatewayEvent): Promise
         'Access-Control-Allow-Credentials': true,
     };
     let statusCode = 200;
+    console.log(event);
+
+    if (typeof event.body === 'string') {
+        event.body = JSON.parse(event.body);
+    }
 
     try {
         body = await handler(event);
@@ -46,6 +52,11 @@ const getProductById = withApiGwMiddleware(async (event) => {
     const {
         pathParameters: { id },
     } = event;
+
+    if (!id) {
+        throw new HttpServiceError('Missing required parameter - id', 400);
+    }
+
     const result = await getById(id);
     if (!result) {
         throw new HttpServiceError(`Product with id=${id} not found`, 404);
@@ -53,5 +64,19 @@ const getProductById = withApiGwMiddleware(async (event) => {
     return result;
 });
 
+const addProduct = withApiGwMiddleware(async (event) => {
+    const {
+        body: { title, description, img, price, count }
+    } = event;
 
-export { getProductsList, getProductById };
+    return await addNewProduct({
+        title,
+        description,
+        img,
+        price,
+        count
+    });
+});
+
+
+export { getProductsList, getProductById, addProduct };
