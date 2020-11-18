@@ -1,0 +1,48 @@
+service:
+  name: import-service
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: aws-rs-cli
+  region: eu-west-1
+  stage: ${opt:stage, 'dev'}
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:*"
+      Resource: "arn:aws:s3:::ndjs-aws-import-products/*"
+
+
+functions:
+  importProductsFile:
+    handler: src/handlers/index.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
+
+  importFileParser:
+    handler: src/handlers/index.importFileParser
+    events:
+      - s3:
+          bucket: ndjs-aws-import-products
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
