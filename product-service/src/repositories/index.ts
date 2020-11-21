@@ -62,4 +62,26 @@ const createProduct = async (newProduct: ProductRequestBody): Promise<void> => {
     }
 };
 
-export { getAllProducts, getProductById, createProduct };
+const createProductBatch = async (newProducts: ProductRequestBody[]): Promise<void> => {
+    const client = getDbClient();
+    await client.connect();
+    try {
+        await client.query('BEGIN');
+        for (const newProduct of newProducts) {
+            const { title, description, price, img, count } = newProduct;
+            console.log(`Saving product ${title} with stock count ${count}`)
+            const res = await client.query(insertProductQuery, [title, description, img, price]);
+
+            await client.query(insertStockQuery, [count, res.rows[0].id]);
+        }
+        await client.query('COMMIT');
+    } catch (e) {
+        console.error(e);
+        await client.query('ROLLBACK');
+        throw e;
+    } finally {
+        await client.end();
+    }
+};
+
+export { getAllProducts, getProductById, createProduct, createProductBatch };

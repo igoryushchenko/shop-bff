@@ -25,6 +25,50 @@ provider:
     DB_NAME: ${ssm:/${self:provider.stage}/env/DB_NAME~true}
     DB_USERNAME: ${ssm:/${self:provider.stage}/env/DB_USERNAME~true}
     DB_PASSWORD: ${ssm:/${self:provider.stage}/env/DB_PASSWORD~true}
+    SQS_URL:
+      Ref: catalogItemsQueue
+    SNS_ARN:
+      Ref: catalogImportTopic
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource:
+        - Fn::GetAtt: [ catalogItemsQueue, Arn ]
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource:
+        Ref: catalogImportTopic
+
+resources:
+  Resources:
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${ssm:/${self:provider.stage}/env/CATALOG_QUEUE~true}
+
+    catalogImportTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${ssm:/${self:provider.stage}/env/CATALOG_TOPIC~true}
+
+    catalogImportSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: ${ssm:/${self:provider.stage}/env/CATALOG_IMPORT_EMAIL~true}
+        Protocol: email
+        TopicArn:
+          Ref: catalogImportTopic
+
+  Outputs:
+    catalogSQSUrl:
+      Value:
+        Ref: catalogItemsQueue
+
+    catalogSQSArn:
+      Value:
+        Fn::GetAtt: [ catalogItemsQueue, Arn ]
+
 
 functions:
   getProductsList:
@@ -57,3 +101,13 @@ functions:
           request:
             schema:
               application/json: ${file(src/schema/addProduct.json)}
+
+  catalogBatchProcess:
+    handler: src/handlers/index.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
