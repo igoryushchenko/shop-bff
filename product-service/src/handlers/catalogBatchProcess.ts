@@ -2,9 +2,8 @@ import { SQSEvent, SQSHandler } from 'aws-lambda';
 import AWS from '../services/aws';
 import { saveProductBatch } from '../services/saveProductBatch';
 
-const sns = new AWS.SNS();
-
 const catalogBatchProcess: SQSHandler = async (event: SQSEvent): Promise<void> => {
+    const sns = new AWS.SNS();
     const products = event.Records.map(({ body }) => JSON.parse(body));
     try {
         await saveProductBatch(products);
