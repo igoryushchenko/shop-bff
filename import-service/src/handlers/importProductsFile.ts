@@ -3,7 +3,7 @@ import { HttpServiceError } from '../errors/HttpServiceError';
 import { withApiGwMiddleware } from '../utils/middlewares';
 
 const s3 = new AWS.S3();
-const bucket = 'ndjs-aws-import-products';
+const bucket = process.env.S3_IMPORT_PRODUCTS;
 
 const importProductsFile = withApiGwMiddleware(async (event) => {
     const {

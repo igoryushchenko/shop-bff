@@ -2,7 +2,9 @@ import AWS from '../services/aws';
 import csv from 'csv-parser';
 
 const s3 = new AWS.S3();
-const bucket = 'ndjs-aws-import-products';
+const bucket = process.env.S3_IMPORT_PRODUCTS;
+
+const sqs = new AWS.SQS();
 
 const importFileParser = (event) => {
     for (const record of event.Records) {
@@ -19,7 +21,17 @@ const importFileParser = (event) => {
             .on('error', (err) => {
                 console.log(err);
             })
-            .on('data', (data) => console.log(data))
+            .on('data', (data) => {
+                console.log(data);
+                sqs.sendMessage({
+                    QueueUrl: process.env.SQS_URL,
+                    MessageBody: JSON.stringify(data),
+                }, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            })
             .on('end', async () => {
                 console.log(`Moving parsed file from ${bucket}/${record.s3.object.key}`);
 

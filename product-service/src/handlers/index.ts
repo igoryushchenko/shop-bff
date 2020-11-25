@@ -2,6 +2,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { HttpServiceError } from '../errors/HttpServiceError';
 import { getAll, getById } from '../services';
 import { addNewProduct } from '../services/addNewProduct';
+import { catalogBatchProcess } from './catalogBatchProcess';
 
 type LambdaResult = {
     headers: Record<string, string | boolean>;
@@ -79,4 +80,4 @@ const addProduct = withApiGwMiddleware(async (event) => {
 });
 
 
-export { getProductsList, getProductById, addProduct };
+export { getProductsList, getProductById, addProduct, catalogBatchProcess };

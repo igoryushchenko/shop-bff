@@ -5,6 +5,7 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+  s3ImportCatalog: ${ssm:/${self:provider.stage}/env/S3-import-products~true}
 
 plugins:
   - serverless-webpack
@@ -17,11 +18,18 @@ provider:
   stage: ${opt:stage, 'dev'}
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    S3_IMPORT_PRODUCTS: ${self:custom.s3ImportCatalog}
+    SQS_URL: ${cf:product-service-${self:provider.stage}.catalogSQSUrl}
 
   iamRoleStatements:
     - Effect: "Allow"
       Action: "s3:*"
-      Resource: "arn:aws:s3:::ndjs-aws-import-products/*"
+      Resource: "arn:aws:s3:::${self:custom.s3ImportCatalog}/*"
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource:
+        - "${cf:product-service-${self:provider.stage}.catalogSQSArn}"
 
 
 functions:
