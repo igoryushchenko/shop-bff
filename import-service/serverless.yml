@@ -44,6 +44,18 @@ functions:
             parameters:
               querystrings:
                 name: true
+          authorizer:
+            name: basicAuthorizer
+            arn:
+              !Join
+                - ':'
+                - - 'arn:aws:lambda'
+                  - !Ref AWS::Region
+                  - !Ref AWS::AccountId
+                  - 'function:authorization-service-${self:provider.stage}-basicAuthorizer'
+            resultTtlInSeconds: 0
+            type: token
+            identitySource: method.request.header.Authorization
 
   importFileParser:
     handler: src/handlers/index.importFileParser
@@ -54,3 +66,22 @@ functions:
           rules:
             - prefix: uploaded/
           existing: true
+
+resources:
+  Resources:
+    ApiGwAccessDeniedResponse:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: ACCESS_DENIED
+        RestApiId: !Ref ApiGatewayRestApi
+    ApiGwAccessUnathorizedResponse:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: UNAUTHORIZED
+        RestApiId: !Ref ApiGatewayRestApi

@@ -1,0 +1,22 @@
+service:
+  name: authorization-service
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: aws-rs-cli
+  region: eu-west-1
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  basicAuthorizer:
+    handler: src/handlers/index.basicAuthorizer
