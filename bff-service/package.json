@@ -1,0 +1,21 @@
+{
+  "name": "bff-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "eb init --platform node.js -r eu-west-1 --profile aws-rs-cli",
+    "create": "eb create dev02 --single --cname igoryushchenko-bff-api-dev",
+    "deploy": "eb deploy",
+    "terminate": "eb terminate",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "node-cache": "^5.1.2"
+  }
+}
